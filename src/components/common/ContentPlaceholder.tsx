@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import SectionLabel from './SectionLabel'
 
 interface ContentPlaceholderProps {
-  /** Bracketed marker, e.g. "[Article content placeholder]". */
+  /** Bracketed marker, e.g. "[Legal content placeholder]". */
   label: string
   children: ReactNode
 }

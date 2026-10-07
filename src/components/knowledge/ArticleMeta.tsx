@@ -1,7 +1,7 @@
 import type { Article } from '@/types/article'
 import ItemMeta from './ItemMeta'
 
-/** Category tag, publication date and read time of an article. */
+/** Category tag, publication date (when the article has one) and read time. */
 export default function ArticleMeta({ article }: { article: Article }) {
   return (
     <ItemMeta

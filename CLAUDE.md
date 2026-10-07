@@ -8,7 +8,8 @@ This file holds the permanent rules for every session. The full design write-up 
 What is finished, what is still a placeholder and what a deployment needs is in
 [FRONTEND_STATUS.md](FRONTEND_STATUS.md) — keep it true when either changes. The final
 quality-control pass (what was compared with Figma, what was fixed, what is still open)
-is in [FRONTEND_QA_REPORT.md](FRONTEND_QA_REPORT.md).
+is in [FRONTEND_QA_REPORT.md](FRONTEND_QA_REPORT.md). The articles and how they were
+converted from the client's documents are in [ARTICLE_CONTENT.md](ARTICLE_CONTENT.md).
 
 ## The one rule
 
@@ -201,7 +202,7 @@ src/
   pages/        one component per route — composition only, no styling logic
                 (DevComponents.tsx is a dev-only gallery, not a page)
   routes/       router.tsx (route table) and paths.ts (URL constants + builders)
-  data/         static content, typed
+  data/         static content, typed (`articleContent/` holds one file per article body)
   types/        shared TypeScript types
   services/     api.ts + one module per backend resource
   hooks/        form, data and menu hooks
@@ -246,7 +247,7 @@ design/         reference PDFs (never imported by the app)
 | `ServicesMenu` | The "Services" nav item: a link plus a chevron button that opens the services list (hover or click). |
 | `MobileMenu` | Panel under the header below `lg`; closes on navigation, Escape, or when the viewport reaches `lg`. |
 | `Footer` | Brand, Navigation, Services, Frameworks + Sector Focus, legal bar. |
-| `PageContainer` | Root wrapper of every page (see Layout). |
+| `PageContainer` | Root wrapper of every page (see Layout). Sets the tab `title` and, when given a `description`, the page's meta description (articles pass their excerpt; other pages keep the site's). |
 | `LegalPage` | Shell of the three legal pages: `PageHeading` ("Legal") over a narrow column. |
 
 Navigation data lives once in `src/data/navigation.ts` and is shared by header, mobile
@@ -280,7 +281,7 @@ Each page file only composes sections; markup lives in the page's component fold
 | Services | `PageHeading` → one `services/ServiceRow` per domain → ticker → `CtaBand` |
 | Careers | `PageHeading` (stacked) → `careers/WhyChooseUs` → ticker → `JobList` of `JobCard` → ticker → `SubmitResume` (heading + `CareerForm` with `ResumeUpload`) |
 | Knowledge Centre | `PageHeading` → `knowledge/KnowledgeTabs` (sticky) → tab panel: `ArticleList` of `ArticleCard`, `VideoList` of `VideoCard`, or `ReportList` of `ReportCard` |
-| Article detail (`/knowledge-centre/articles/:slug`) | `HeroBand` (back link, `ArticleMeta`, title) → two-column grid: excerpt + `ArticleContent` (two thirds) and `ArticleNavigation` |
+| Article detail (`/knowledge-centre/articles/:slug`) | `HeroBand` (back link, `ArticleMeta`, title) → two-column grid: `ArticleContent` (two thirds) and `ArticleNavigation` |
 | Service detail (`/services/:serviceSlug`) | `services/ServiceDetailHero` → two-column grid: one `ServiceItemSection` per service (two thirds) and `ServiceSidebar` (services jump list, standards, "Engage this service", `NextService`) |
 | Privacy Policy, Terms of Service | `layout/LegalPage` → `ContentPlaceholder` ("[Legal content placeholder]") — no copy has been supplied |
 | Security Disclosure | `layout/LegalPage` → the Contact page's `contact/SecurityDisclosure` card, the only disclosure copy that exists |
@@ -391,8 +392,29 @@ design's layout with the client's requirements applied:
   no parameter), so tabs can be linked and survive a reload. Proper tab semantics, arrow
   keys move between tabs, and the bar sticks under the header. To add a tab's content,
   render it in the matching branch of `pages/KnowledgeCentre.tsx`.
-- **Articles** are static: `src/data/articles.ts`, newest first. The list rows have no
-  images, filters, search or featured article because the design has none.
+- **Articles are static and final: the twelve the client supplied as Word documents.**
+  There is no article API, database model or admin editing, and there must not be one.
+  The documents were converted once into TypeScript; [ARTICLE_CONTENT.md](ARTICLE_CONTENT.md)
+  lists them and records every decision. The earlier six articles from the design were
+  demo content and are gone.
+  - `src/data/articles.ts` is the list: slug, category, read time, title, excerpt. The
+    Knowledge Centre page loads only this.
+  - `src/data/articleContent/<slug>.ts` is one article's body; `articleContent/index.ts`
+    maps slugs to bodies and is imported only by the article page, so the listing does
+    not download twelve articles.
+  - A body is an ordered list of `ArticleBlock`s (`types/article.ts`): `heading` (level 2
+    or 3), `paragraph`, `list` (ordered or not). Text is a string, or a list of runs when
+    the document has bold or italic words. `knowledge/ArticleContent` renders them.
+  - **The wording is the client's and must stay verbatim** — titles, headings, every
+    sentence, including spellings such as "Cyber security" and "Tier-1 suppliers". Only
+    formatting was interpreted (which lines are headings, lists, emphasis).
+  - Not in the documents, so decided here and flagged for the client: the **category**
+    (one of the design's existing tags), the **read time** (word count ÷ 200, rounded
+    up) and the **order** (the order the files were delivered). The **excerpt** is the
+    article's opening sentence, unchanged. **No dates** were supplied, so rows and pages
+    show none — do not invent them; set `publishedAt` when real dates arrive.
+  - The list rows have no images, filters, search or featured article because the design
+    has none, and the documents contain no images.
 - **Rows share one pattern.** Article, video and report rows are the designed article
   row; `knowledge/ItemMeta` is their metadata line (tag, date, one detail) and
   `knowledge/TabMessage` the one-line loading / empty / error text.
@@ -416,10 +438,6 @@ design's layout with the client's requirements applied:
     YouTube's own still derived from the link (`utils/youtube.ts`, loaded from
     `i.ytimg.com`), otherwise an empty 16:9 box with the play mark. The box has a fixed
     ratio so nothing moves while images load or fail.
-- **Article bodies are not supplied.** `content` (sections of heading, paragraphs,
-  bullets) is unset for all six articles, and the detail page shows a deliberately obvious
-  "[Article content placeholder]" box. Never write stand-in articles; add real text to
-  `content` and the placeholder disappears.
 - **Article detail is not designed.** It reuses the Service Detail layout. "Next article"
   and "Previous article" come from the data order and are left out at either end.
 
@@ -461,7 +479,7 @@ Components read it through the exported arrays and lookup helpers
 (`getServiceDomain`, `getNextServiceDomain`, `getArticleBySlug`).
 
 Content that has not been supplied is marked `CONTENT_PENDING` in the data files
-(service domain summaries, taglines and intros, article bodies, reports, videos).
+(service domain summaries, taglines and intros, reports, videos).
 **Do not invent this copy.** Ask for it.
 
 Backend-connected (code written, switched off by `VITE_ENABLE_API` until the contract
@@ -554,6 +572,8 @@ asked.
 8. **Done** — final QA pass against the Figma prototype: 27 URLs at ten widths, every
    designed page compared element by element, nine 0.5–3px mismatches in form fields
    and buttons fixed. Result: pass with remaining items that are all external.
+9. **Done** — the six demo articles replaced by the client's twelve, converted from
+   Word documents into static data and checked character for character.
 
 The public frontend is implementation-complete; it is **not** content-complete. What is
 left needs input from outside this repo: the pending copy and assets, and checking the

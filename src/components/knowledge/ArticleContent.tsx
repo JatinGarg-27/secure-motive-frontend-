@@ -1,45 +1,78 @@
-import ContentPlaceholder from '@/components/common/ContentPlaceholder'
-import type { Article } from '@/types/article'
+import type { ArticleBlock, ArticleText } from '@/types/article'
+import { cn } from '@/utils/helpers'
 
-/** The body of an article: optional headings, paragraphs and bullet lists. */
-export default function ArticleContent({ article }: { article: Article }) {
-  if (!article.content) {
-    return (
-      <ContentPlaceholder label="[Article content placeholder]">
-        The text of this article has not been supplied yet. It will appear here once it is added
-        to the article data.
-      </ContentPlaceholder>
+/** A line of article text, keeping the bold and italic runs of the source document. */
+function Text({ value }: { value: ArticleText }) {
+  if (typeof value === 'string') return value
+
+  return value.map((run, index) => {
+    if (typeof run === 'string') return run
+    const className = cn(run.bold && 'font-semibold text-white', run.italic && 'italic')
+    return run.bold ? (
+      <strong key={index} className={className}>
+        {run.text}
+      </strong>
+    ) : (
+      <em key={index} className={className}>
+        {run.text}
+      </em>
+    )
+  })
+}
+
+function Block({ block }: { block: ArticleBlock }) {
+  if (block.type === 'heading') {
+    return block.level === 2 ? (
+      <h2 className="mt-8 -mb-1 font-display text-xl font-semibold tracking-wide text-cyber-teal first:mt-0">
+        {block.text}
+      </h2>
+    ) : (
+      <h3 className="mt-2 -mb-2 font-display text-lg font-semibold tracking-wide text-white first:mt-0">
+        {block.text}
+      </h3>
     )
   }
 
+  if (block.type === 'paragraph') {
+    return (
+      <p>
+        <Text value={block.text} />
+      </p>
+    )
+  }
+
+  // The marker and the text are separate flex items, so wrapped lines align with the text.
+  const List = block.ordered ? 'ol' : 'ul'
   return (
-    <div className="flex flex-col gap-12">
-      {article.content.map((section, index) => (
-        <section key={section.heading ?? index}>
-          {section.heading && (
-            <h2 className="mb-3 font-display text-xl font-semibold tracking-wide text-cyber-teal">
-              {section.heading}
-            </h2>
+    <List className="flex flex-col gap-2.5">
+      {block.items.map((item, index) => (
+        <li key={index} className="flex items-start gap-2">
+          {block.ordered ? (
+            <span aria-hidden="true" className="w-5 shrink-0 font-code text-sm/6.5 text-cyber-teal">
+              {index + 1}.
+            </span>
+          ) : (
+            <span aria-hidden="true" className="mt-2.5 size-1.5 shrink-0 rounded-full bg-cyber-orange" />
           )}
-          <div className="flex flex-col gap-4 leading-relaxed text-cyber-muted">
-            {section.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            {section.bullets && (
-              <ul className="flex flex-col gap-2.5">
-                {section.bullets.map((bullet) => (
-                  <li key={bullet} className="flex items-start gap-2">
-                    <span
-                      aria-hidden="true"
-                      className="mt-2.5 size-1.5 shrink-0 rounded-full bg-cyber-orange"
-                    />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
+          <span>
+            <Text value={item} />
+          </span>
+        </li>
+      ))}
+    </List>
+  )
+}
+
+/**
+ * The body of an article: headings, paragraphs and lists in the order of the
+ * source document. The design has no article page, so the type follows the
+ * Service Detail body: teal section headings, white sub-headings, muted text.
+ */
+export default function ArticleContent({ blocks }: { blocks: ArticleBlock[] }) {
+  return (
+    <div className="flex flex-col gap-4 leading-relaxed text-cyber-muted">
+      {blocks.map((block, index) => (
+        <Block key={index} block={block} />
       ))}
     </div>
   )

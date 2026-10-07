@@ -7,19 +7,19 @@ import { articleDetailPath } from '@/routes/paths'
  * data. At either end of the list the missing side is simply left out.
  */
 export default function ArticleNavigation({ slug }: { slug: string }) {
-  const { newer, older } = getAdjacentArticles(slug)
-  if (!newer && !older) return null
+  const { previous, next } = getAdjacentArticles(slug)
+  if (!previous && !next) return null
 
   return (
     <nav aria-label="More articles" className="flex flex-col gap-5">
-      {older && (
-        <NavCard label="Next article" title={older.title} to={articleDetailPath(older.slug)} />
+      {next && (
+        <NavCard label="Next article" title={next.title} to={articleDetailPath(next.slug)} />
       )}
-      {newer && (
+      {previous && (
         <NavCard
           label="Previous article"
-          title={newer.title}
-          to={articleDetailPath(newer.slug)}
+          title={previous.title}
+          to={articleDetailPath(previous.slug)}
           direction="back"
         />
       )}

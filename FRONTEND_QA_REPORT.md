@@ -5,6 +5,11 @@ application in this pass — nothing is carried over on trust from earlier phase
 Companion documents: [FRONTEND_STATUS.md](FRONTEND_STATUS.md) (state and deployment),
 [CLAUDE.md](CLAUDE.md) (rules and architecture).
 
+> **Later change.** After this pass the six demo articles were replaced by the client's
+> twelve. The six article URLs in §3 no longer exist, and "article bodies" is no longer
+> an open item. That work and its own verification are in
+> [ARTICLE_CONTENT.md](ARTICLE_CONTENT.md).
+
 ## 1. Overall Status
 
 **PASS WITH MINOR REMAINING ITEMS**

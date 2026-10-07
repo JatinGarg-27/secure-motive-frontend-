@@ -7,6 +7,7 @@ import ArticleContent from '@/components/knowledge/ArticleContent'
 import ArticleMeta from '@/components/knowledge/ArticleMeta'
 import ArticleNavigation from '@/components/knowledge/ArticleNavigation'
 import PageContainer from '@/components/layout/PageContainer'
+import { getArticleContent } from '@/data/articleContent'
 import { getArticleBySlug } from '@/data/articles'
 import { ROUTES } from '@/routes/paths'
 import NotFound from './NotFound'
@@ -23,7 +24,7 @@ export default function ArticleDetail() {
   if (!article) return <NotFound />
 
   return (
-    <PageContainer title={article.title}>
+    <PageContainer title={article.title} description={article.excerpt}>
       <article>
         <HeroBand>
           <TextLink to={ROUTES.knowledgeCentre} arrow="left" tone="muted">
@@ -40,9 +41,8 @@ export default function ArticleDetail() {
 
         {/* The top padding includes the empty 37px band the design leaves under every hero. */}
         <Container className="grid items-start gap-12 pt-14 pb-14 md:pt-25 md:pb-16 lg:grid-cols-3">
-          <div className="flex flex-col gap-12 lg:col-span-2">
-            <p className="text-lg leading-relaxed text-cyber-muted">{article.excerpt}</p>
-            <ArticleContent article={article} />
+          <div className="lg:col-span-2">
+            <ArticleContent blocks={getArticleContent(article.slug)} />
           </div>
           <ArticleNavigation slug={article.slug} />
         </Container>

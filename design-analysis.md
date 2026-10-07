@@ -155,6 +155,7 @@ Nothing below was resolved by guessing. Each item needs a decision or missing ma
 | 26 | **The Figma prototype is publicly viewable** (found in the final QA pass). It holds 37 frames — the 7 pages and 30 hover sheets — and nothing else: no mobile frames, no animation, no extra pages. | Gaps 9 and 10 are narrowed: the prototype has no interactions beyond hover and shows the band under each hero empty (gap 17). Animated elements can only exist in the Make source, which still cannot be read. |
 | 27 | **PDF sizes were misread for bordered elements.** The PDF draws a border as a box 1px larger on every side; earlier phases sized some controls from that outer box. | Corrected in the final QA pass against the prototype's pixels: form inputs 47px, selects 44px, textareas five/four lines, form rows 20px apart, solid buttons 48px, the outlined secondary button 50px, "Apply now" 38px with a 12px arrow. |
 | 28 | **Brief vs Figma, final pass.** The QA brief expected a Contact "Security Check" field and a Careers "Full name" field. | Neither is in the prototype's Contact or Career frame. Not built; Figma wins. |
+| 29 | **Article content supplied.** The client delivered twelve articles as Word documents; the six rows in the design were demo content. | The twelve replace the six (gap 22 closed). Bodies are static data converted from the documents — see ARTICLE_CONTENT.md. The documents carry no dates, categories or images: rows show no date, categories were assigned from the design's existing tags and need the client's confirmation. |
 
 ## Page Inventory
 

@@ -30,10 +30,10 @@ present on this machine, and this repository contains no backend or admin code.
 | Home | `/` | Designed | Built. Service previews carry the client's five domains. |
 | Services | `/services` | Designed | Built with the client's five domains. Row descriptions missing (§6). |
 | Service domain × 5 | `/services/automotive`, `/agriculture`, `/off-highway`, `/commercial`, `/industrial-ot` | Designed template | Built with the client's 19 services, wording verbatim. Tagline and intro missing (§6). |
-| Knowledge Centre — Articles | `/knowledge-centre` | Designed | Built. |
+| Knowledge Centre — Articles | `/knowledge-centre` | Designed | Built. Lists the client's 12 articles. |
 | Knowledge Centre — Videos | `/knowledge-centre?tab=videos` | **Not designed** | Built from the article row. Shows "No videos have been published yet." until the API is on. |
 | Knowledge Centre — Reports | `/knowledge-centre?tab=reports` | **Not designed** | Built from the article row. Shows two **placeholder** entries (§6). |
-| Article × 6 | `/knowledge-centre/articles/:slug` | **Not designed** | Built. Every article body is a **placeholder** (§6). |
+| Article × 12 | `/knowledge-centre/articles/:slug` | **Not designed** | Built. Full client text, converted from the supplied Word documents — see [ARTICLE_CONTENT.md](ARTICLE_CONTENT.md). |
 | Careers | `/careers` | Designed | Built. Form follows the client's field requirements. |
 | Company | `/company` | Designed | Built. |
 | Contact | `/contact` | Designed | Built. |
@@ -129,7 +129,6 @@ Visible to a visitor today:
 
 | Where | What a visitor sees | To remove it |
 | --- | --- | --- |
-| All 6 article pages | "[Article content placeholder]" box instead of the article | Add `content` to each article in `src/data/articles.ts` |
 | Reports tab | Two rows titled "[Report placeholder] Report title", category "PLACEHOLDER", "File pending" | Replace the entries in `src/data/reports.ts` (add `fileUrl` for a Download button), or empty the array before launch |
 | Privacy Policy | "[Legal content placeholder]" box | Supply the policy text |
 | Terms of Service | "[Legal content placeholder]" box | Supply the terms |
@@ -145,13 +144,13 @@ Missing but not visible (the layout simply omits them):
 | Security Disclosure page | An actual disclosure policy (scope, process, timelines) |
 | Home hero | The video (`Car.mp4`) — the still image is used |
 
-Markers in the code: `CONTENT_PENDING` (services, articles, reports data),
+Markers in the code: `CONTENT_PENDING` (services and reports data),
 `PLACEHOLDER_ASSET` (`src/data/home.ts`), `PROVISIONAL` (the three services and
 `api.ts`). There are no `TODO`, `FIXME` or lorem-ipsum strings.
 
 **Content that came from the design and has not been confirmed by the client.** The
-office addresses, phone numbers and email addresses, the six job listings, the six
-article titles, dates and excerpts, the company timeline, the "Systems operational" line
+office addresses, phone numbers and email addresses, the six job listings, the company
+timeline, the "Systems operational" line
 in the footer and the response-time promises on the Contact page are all reproduced from
 the Figma design. They may be prototype copy. Someone at SecureXmotive should confirm
 each before launch — in particular the contact details and the open positions.
@@ -275,9 +274,10 @@ contrast, and anything involving the real backend.
 To be explicit, these are unfinished and need the client or the backend, not more
 frontend work:
 
-1. Article bodies (6), reports (2 placeholder rows), legal text (2 pages), a disclosure
+1. Reports (2 placeholder rows), legal text (2 pages), a disclosure
    policy, service summaries / taglines / intros.
 2. Hero video, favicons, share image.
-3. Confirmation of the design's contact details, job listings and article list.
+3. Confirmation of the design's contact details and job listings, and of the article
+   categories, order and missing dates (the articles themselves are the client's).
 4. Verification of the API contract, then switching `VITE_ENABLE_API` on.
 5. Approval of the derived layouts (mobile, tablet, Videos, Reports, Article, legal, 404).

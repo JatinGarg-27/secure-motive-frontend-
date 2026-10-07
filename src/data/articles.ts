@@ -1,76 +1,120 @@
 import type { Article } from '@/types/article'
 
 /**
- * Knowledge Centre articles, newest first. Titles, dates, read times and
- * excerpts are from the design.
+ * The Knowledge Centre's articles: the twelve supplied by the client, in the
+ * order they were delivered. Titles and excerpts are the client's own words —
+ * each excerpt is the article's opening sentence. Bodies are in
+ * `articleContent/`, one file per article.
  *
- * The design covers the listing only, so no article has a body yet
- * (CONTENT_PENDING). The detail page shows a clearly marked placeholder until
- * `content` is added here — do not write stand-in articles.
+ * Not supplied, so decided here: the category (from the design's existing
+ * set) and the read time (the body's word count at 200 words a minute). No
+ * publication dates were supplied, so none are shown.
  */
 export const articles: Article[] = [
   {
-    slug: 'unece-r155-in-practice',
-    category: 'REGULATION',
-    publishedAt: '2026-08-14',
-    readMinutes: 8,
-    title: 'UNECE R155 in Practice: What OEMs Must Deliver for CSMS Type Approval',
-    excerpt:
-      'A practical walkthrough of the CSMS documentation package, audit interview preparation, and the common gaps that cause type approval delays.',
-  },
-  {
-    slug: 'secure-boot-architecture-for-automotive-microcontrollers',
-    category: 'ENGINEERING',
-    publishedAt: '2026-08-02',
-    readMinutes: 12,
-    title: 'Secure Boot Architecture for Automotive Microcontrollers: A Field Guide',
-    excerpt:
-      'From root of trust to application verification — designing multi-stage secure boot chains for constrained automotive MCUs with limited flash and RAM.',
-  },
-  {
-    slug: 'india-ais-189-ais-190-key-differences',
-    category: 'COMPLIANCE',
-    publishedAt: '2026-07-18',
-    readMinutes: 6,
-    title: "India's AIS 189 & AIS 190: Key Differences from UNECE R155/R156",
-    excerpt:
-      'AIS 189 and 190 track closely to UNECE but carry India-specific test procedures and ARAI submission requirements. Here is what changes.',
-  },
-  {
-    slug: 'automotive-ransomware-telematics-attack-vector',
+    slug: 'ai-arms-race-in-automotive-cybersecurity',
     category: 'THREAT INTEL',
-    publishedAt: '2026-07-05',
-    readMinutes: 10,
-    title: 'Automotive Ransomware: How Telematics Units Became a Tier-1 Attack Vector',
+    readMinutes: 7,
+    title: 'The AI Arms Race in Automotive Cybersecurity: Defensive Systems, Offensive Threats, and Quantum Computing',
     excerpt:
-      'Analysis of real-world telematics exploitation patterns and the specific architecture decisions that reduce exposure in production vehicle programs.',
+      'The automotive industry is going through a fundamental transformation.',
   },
   {
-    slug: 'cyber-resilience-act-vehicle-software',
+    slug: 'automotive-cybersecurity-management-system-csms',
+    category: 'COMPLIANCE',
+    readMinutes: 7,
+    title: 'Automotive Cybersecurity Management System (CSMS): A Scalable Security Foundation for OEMs and Tier-1 suppliers',
+    excerpt:
+      'The automotive industry is undergoing one of the most significant technological transformations in its history.',
+  },
+  {
+    slug: 'vehicle-diagnostic-security',
+    category: 'ENGINEERING',
+    readMinutes: 7,
+    title: 'Vehicle Diagnostic Security: The Growing Cybersecurity Risk of Aftermarket Diagnostic Tools',
+    excerpt:
+      'Diagnostic tools are indispensable to the automotive industry.',
+  },
+  {
+    slug: 'can-one-compromised-ecu-take-down-an-entire-machine',
+    category: 'ENGINEERING',
+    readMinutes: 8,
+    title: 'Can One Compromised ECU Take Down an Entire Machine? Why Network Segmentation Matters',
+    excerpt:
+      'Modern commercial vehicles and agricultural machines are no longer purely mechanical systems.',
+  },
+  {
+    slug: 'iec-62443-compliance-for-indian-manufacturers',
+    category: 'COMPLIANCE',
+    readMinutes: 7,
+    title: 'IEC 62443 Compliance: How Indian Manufacturers Can Secure Their OT Systems and Meet Global Cybersecurity Requirements',
+    excerpt:
+      'As Indian manufacturers expand their presence in Europe and other international markets, cybersecurity is becoming an increasingly important part of business competitiveness.',
+  },
+  {
+    slug: 'legacy-plcs-under-attack',
+    category: 'THREAT INTEL',
+    readMinutes: 7,
+    title: 'Legacy PLCs Under Attack: The Hidden Cybersecurity Risks of Connected Industrial Networks',
+    excerpt:
+      'For decades, the air gap was considered one of the strongest defenses in industrial cybersecurity.',
+  },
+  {
+    slug: 'ota-update-security',
+    category: 'ENGINEERING',
+    readMinutes: 8,
+    title: 'OTA Update Security: Best Practices for Reliable Fleet Management',
+    excerpt:
+      'Over-the-air (OTA) updates have become an essential capability for modern connected vehicles, IoT devices, smart infrastructure, and industrial fleets.',
+  },
+  {
+    slug: 'post-quantum-cryptography-for-automotive-cybersecurity',
+    category: 'ENGINEERING',
+    readMinutes: 7,
+    title: 'Post-Quantum Cryptography for Automotive Cybersecurity: A 2026–2028 Roadmap for UN R155 and R156 Compliance',
+    excerpt:
+      'Modern vehicles are designed to remain operational for many years, but the cryptographic technologies protecting them may have a much shorter useful life.',
+  },
+  {
+    slug: 'sboms-for-vehicles',
+    category: 'COMPLIANCE',
+    readMinutes: 8,
+    title: 'SBOMs for Vehicles: The Software Ingredient List Regulators Want—and Hackers Love',
+    excerpt:
+      'Modern vehicles, commercial fleets, agricultural machines, and heavy off-highway equipment are becoming increasingly software-driven.',
+  },
+  {
+    slug: 'software-defined-trucks-under-attack',
+    category: 'THREAT INTEL',
+    readMinutes: 8,
+    title: 'Software-Defined Trucks under Attack: 6 Cybersecurity Weaknesses Hackers can Exploit',
+    excerpt:
+      'The commercial trucking industry is undergoing a fundamental transformation.',
+  },
+  {
+    slug: 'un-r155-for-trucks-buses-and-tractors',
     category: 'REGULATION',
-    publishedAt: '2026-06-22',
-    readMinutes: 9,
-    title: 'Cyber Resilience Act: Scope, Obligations, and What It Means for Vehicle Software',
+    readMinutes: 7,
+    title: 'UN R155 for Trucks, Buses and Tractors: What Does It Really Mean for Commercial Vehicle Cybersecurity?',
     excerpt:
-      'Regulation 2024/2847 imposes cybersecurity requirements on products with digital elements. We unpack how connected vehicle ECUs fit within CRA scope.',
+      'Imagine a cyberattack taking control of a passenger car.',
   },
   {
-    slug: 'tara-methodology-comparison',
-    category: 'METHODOLOGY',
-    publishedAt: '2026-06-10',
-    readMinutes: 11,
-    title: 'TARA Methodology Comparison: STRIDE vs EVITA vs Attack Trees in ISO 21434 Context',
+    slug: 'when-implements-become-attack-vectors',
+    category: 'THREAT INTEL',
+    readMinutes: 8,
+    title: 'When Implements Become Attack Vectors: The Cyber security Challenge for Tractor Manufacturers',
     excerpt:
-      'A practitioner comparison of the three dominant threat modeling approaches applied to automotive systems, with tradeoff analysis for each methodology.',
+      'Modern tractors are no longer isolated mechanical machines.',
   },
 ]
 
 export const getArticleBySlug = (slug: string): Article | undefined =>
   articles.find((article) => article.slug === slug)
 
-/** The newer and older neighbours of an article in the list; either may be undefined. */
-export function getAdjacentArticles(slug: string): { newer?: Article; older?: Article } {
+/** The articles before and after one in the list; either may be undefined. */
+export function getAdjacentArticles(slug: string): { previous?: Article; next?: Article } {
   const position = articles.findIndex((article) => article.slug === slug)
   if (position === -1) return {}
-  return { newer: articles[position - 1], older: articles[position + 1] }
+  return { previous: articles[position - 1], next: articles[position + 1] }
 }
