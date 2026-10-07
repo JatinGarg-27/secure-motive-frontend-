@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+
+/*
+ * SecureXmotive design tokens.
+ *
+ * Tailwind v4 is CSS-first: this @theme block replaces tailwind.config.ts.
+ * Every value below comes from the Figma variables / design PDFs — see
+ * design-analysis.md. Do not add tokens the design does not use, and do not
+ * change these values without a design reason.
+ *
+ * Tailwind's default type scale, spacing scale, breakpoints and container
+ * widths already match the design (it was built on them), so they are not
+ * redefined here.
+ */
+@theme {
+  /* --- Colors ------------------------------------------------------------ */
+  --color-cyber-bg: #121212; /* Figma grey/7 "Cod Gray" — page background */
+  --color-cyber-surface: #252525; /* Figma grey/15 "Mine Shaft" — cards, footer */
+  --color-cyber-field: #1a1a1a; /* form inputs, selects, textareas */
+  --color-cyber-teal: #50c9b9; /* Figma cyan/55 "Puerto Rico" — primary accent */
+  --color-cyber-orange: #ff6700; /* Figma orange/50 "Blaze Orange" — secondary accent */
+  --color-cyber-muted: #aaaaaa; /* Figma grey/67 "Silver Chalice" — secondary text */
+  --color-cyber-placeholder: #888888; /* input placeholder, used at 50% opacity */
+  --color-cyber-value: #f0f0f0; /* text inside form fields */
+
+  /* Extra accents for the Services rows. Rows 01 and 02 use teal and orange;
+     rows 03-05 use these. */
+  --color-accent-yellow: #fdc700;
+  --color-accent-red: #ff6467;
+  --color-accent-purple: #c27aff;
+
+  /* --- Typography -------------------------------------------------------- */
+  --font-display: 'Rajdhani', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-code: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Sizes the design uses that fall outside Tailwind's default scale */
+  --text-3xs: 0.5rem; /* 8px — logo tagline */
+  --text-3xs--line-height: 1;
+  --text-2xs: 0.6875rem; /* 11px — tags / chips */
+  --text-2xs--line-height: 1.5;
+  --text-btn: 0.8125rem; /* 13px — solid button label */
+  --text-btn--line-height: calc(20 / 13); /* 20px: a solid button is 48px tall */
+
+  --tracking-button: 0.12em; /* 1.56px at 13px */
+
+  /* --- Layout ------------------------------------------------------------ */
+  /* Narrowest viewport at which the desktop navigation fits at full size.
+     Between `lg` and this width the nav items use tighter padding. */
+  --breakpoint-nav: 68.75rem; /* 1100px */
+
+  /* --- Shape & effects --------------------------------------------------- */
+  --radius-card: 0.875rem; /* 14px — every card surface */
+
+  --shadow-glow: 0 0 20px 0 rgb(80 201 185 / 0.35); /* solid button hover */
+  --drop-shadow-glow: 0 0 12px rgb(80 201 185 / 0.15); /* card hover */
+
+  /* --- Motion ------------------------------------------------------------ */
+  /* Default for every `transition-*` utility. The design gives no timings;
+     200ms is the site-wide convention (cards use duration-300 for the glow). */
+  --default-transition-duration: 200ms;
+
+  /* Ticker loop. The 40s duration is inferred — the design is static. */
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@layer base {
+  /* The site is dark-only: keep native controls and scrollbars dark too. */
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-cyber-bg font-body text-white antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-cyber-teal;
+  }
+}
+
+/* Thin teal rule that fades out at both ends (heading underlines, footer). */
+@utility gradient-line {
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, var(--color-cyber-teal), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
